@@ -33,6 +33,7 @@ class NetworkManager {
             decodedOfferModel = try? decoder.decode(OfferModel.self, from: data)
             result(decodedOfferModel)
         }.resume()
+        //chould to add new url method
     }
 }
 
