@@ -1,0 +1,20 @@
+PODS:
+  - Hex (6.1.0)
+  - TinyConstraints (4.0.1)
+
+DEPENDENCIES:
+  - Hex (~> 6.1.0)
+  - TinyConstraints (~> 4.0.1)
+
+SPEC REPOS:
+  trunk:
+    - Hex
+    - TinyConstraints
+
+SPEC CHECKSUMS:
+  Hex: 2f67dd0cbb178cb24992e7529b025b8d16ff0bdc
+  TinyConstraints: 8dd91295e56797648c7bc335dd20e1d91ec4c192
+
+PODFILE CHECKSUM: c60c1a6e11d70ae79d7c69795dbe1b9f1d8d5f69
+
+COCOAPODS: 1.10.0
