@@ -9,5 +9,7 @@ target 'Weather' do
 
   pod "TinyConstraints", '~> 4.0.1'
   pod 'Hex', '~> 6.1.0'
+  pod 'Alamofire', '~> 5.2'
+  pod 'SDWebImage', '~> 5.0'
   
 end

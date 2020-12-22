@@ -1,20 +1,30 @@
 PODS:
+  - Alamofire (5.4.1)
   - Hex (6.1.0)
+  - SDWebImage (5.10.0):
+    - SDWebImage/Core (= 5.10.0)
+  - SDWebImage/Core (5.10.0)
   - TinyConstraints (4.0.1)
 
 DEPENDENCIES:
+  - Alamofire (~> 5.2)
   - Hex (~> 6.1.0)
+  - SDWebImage (~> 5.0)
   - TinyConstraints (~> 4.0.1)
 
 SPEC REPOS:
   trunk:
+    - Alamofire
     - Hex
+    - SDWebImage
     - TinyConstraints
 
 SPEC CHECKSUMS:
+  Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
   Hex: 2f67dd0cbb178cb24992e7529b025b8d16ff0bdc
+  SDWebImage: 9169792e9eec3e45bba2a0c02f74bf8bd922d1ee
   TinyConstraints: 8dd91295e56797648c7bc335dd20e1d91ec4c192
 
-PODFILE CHECKSUM: c60c1a6e11d70ae79d7c69795dbe1b9f1d8d5f69
+PODFILE CHECKSUM: 089eb3f6f04d977edf6f8d2abd5a7808c621cd6e
 
 COCOAPODS: 1.10.0
