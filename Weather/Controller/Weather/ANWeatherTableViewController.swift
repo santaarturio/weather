@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import CoreLocation
 
 class ANWeatherTableViewController: UITableViewController {
     private let dataSource = ANWeatherVcDataSource()
+    private let locationManager = CLLocationManager()
     private let headerIdentifier = String(describing: ANWeatherTableVcTableViewHeader.self)
     private var collectionViewCellIdentifier = String(describing: ANWeatherCollectionViewCell.self)
     private let headerHeight: CGFloat = 135.0
@@ -19,6 +21,14 @@ class ANWeatherTableViewController: UITableViewController {
         
         setupTableViewHeader()
         setupNavigationBar()
+        configureColationManager()
+    }
+    //MARK: - Setup
+    private func configureColationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
+        locationManager.startUpdatingLocation()
     }
     //MARK: - UISetup
     private func setupTableViewHeader() {
@@ -134,3 +144,17 @@ extension ANWeatherTableViewController: UISearchResultsUpdating {
         })
     }
 }
+
+extension ANWeatherTableViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        locationManager.stopUpdatingLocation()
+        let currentLocation = locations.last
+        var coord = CoordModel()
+        coord.lat = Float(currentLocation?.coordinate.latitude ?? 0)
+        coord.lon = Float(currentLocation?.coordinate.longitude ?? 0)
+        print(coord)
+        dataSource.updateData(for: createCityModel(cityName: nil, coord: coord),
+                              completion: { self.reloadData() })
+    }
+}
+  

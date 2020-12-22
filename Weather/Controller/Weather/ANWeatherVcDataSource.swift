@@ -32,9 +32,6 @@ class ANWeatherVcDataSource {
         let newDate = dateFormatterGet.date(from: date ?? "")
         return dateFormatterPrint.string(from: newDate ?? Date())
     }
-    private func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
-        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
-    }
     private func getWeatherIconURL(code iconCode: String) -> URL? {
         URL(string: "https://openweathermap.org/img/w/\(iconCode).png")
     }

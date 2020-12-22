@@ -45,6 +45,7 @@ class NetworkManager {
                            result: @escaping ((OfferModel?) -> Void)) {
         let url = cityModel.coord != nil ?
             getUrlStringForCoord(cityModel.coord) : getUrlStringForCityName(cityModel.name)
+        print(url)
         AF.request(url).validate()
             .responseJSON { (responseJSON) in
                 guard let data = responseJSON.data else { return }
@@ -57,7 +58,7 @@ class NetworkManager {
     
     //MARK: - Private
     private func getUrlStringForCoord(_ coord: CoordModel?) -> String {
-        "api.openweathermap.org/data/2.5/forecast?" +
+        "https://api.openweathermap.org/data/2.5/forecast?" +
             "lat=\(coord?.lat ?? 0)&lon=\(coord?.lon ?? 0)" +
             "&units=metric&lang=ru&appid=fc54fa89ac9d7ef25bb6222203ec7e7b"
     }
