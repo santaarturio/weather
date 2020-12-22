@@ -152,7 +152,6 @@ extension ANWeatherTableViewController: CLLocationManagerDelegate {
         var coord = CoordModel()
         coord.lat = Float(currentLocation?.coordinate.latitude ?? 0)
         coord.lon = Float(currentLocation?.coordinate.longitude ?? 0)
-        print(coord)
         dataSource.updateData(for: createCityModel(cityName: nil, coord: coord),
                               completion: { self.reloadData() })
     }

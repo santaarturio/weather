@@ -14,11 +14,9 @@ class ANWeatherCollectionViewCell: UICollectionViewCell {
     private var weatherIcon = UIImageView()
     private var tempLabel = UILabel()
     
-    public func setup(time: String?, weatherIconURL: URL?, temperature temp: Float?) {
+    //MARK: - UISetup
+    override func draw(_ rect: CGRect) {
         configureView()
-        timeLabel.text = time
-        weatherIcon.sd_setImage(with: weatherIconURL)
-        tempLabel.text = "\(Int(temp ?? 666))°C"
     }
     private func configureView() {
         backgroundColor = .clear
@@ -39,5 +37,11 @@ class ANWeatherCollectionViewCell: UICollectionViewCell {
         tempLabel.topToBottom(of: weatherIcon)
         tempLabel.edgesToSuperview(excluding: .top, insets: .bottom(4.0))
         tempLabel.height(to: timeLabel)
+    }
+    //MARK: - Public Setup
+    public func setup(time: String?, weatherIconURL: URL?, temperature temp: Float?) {
+        timeLabel.text = time
+        weatherIcon.sd_setImage(with: weatherIconURL)
+        tempLabel.text = "\(Int(temp ?? 666))°C"
     }
 }
