@@ -7,17 +7,12 @@
 
 import Foundation
 import UIKit
-protocol  ANWeatherVcDataSourceDelegate: class {
-    func dataUpdated()
-}
+
 class ANWeatherVcDataSource {
-    public weak var delegate: ANWeatherVcDataSourceDelegate?
     private let manager = NetworkManager.shared
     private let numberOfDays = 5
     private let numberOfPredictionsPerDay = 8
-    private var weatherModel: OfferModel? {
-        didSet { delegate?.dataUpdated() }
-    }
+    private var weatherModel: OfferModel? 
     private var weatherIconsDict = [String: UIImage?]()
     private var weatherIcon: UIImage?
     
@@ -37,38 +32,18 @@ class ANWeatherVcDataSource {
         let newDate = dateFormatterGet.date(from: date ?? "")
         return dateFormatterPrint.string(from: newDate ?? Date())
     }
-    //MARK: - Needs Roma Help
     private func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
         URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
     }
-//    private func downloadImage(from url: URL) -> UIImage? {
-//        var image: UIImage?
-//        getData(from: url) { data, response, error in
-//            guard let data = data, error == nil else { return }
-//            DispatchQueue.main.sync() {
-//                image = UIImage(data: data)
-//
-//            }
-//        }
-//        return image
-//    }
-    private func getWeatherIcon(code iconCode: String) -> UIImage? {
-        if weatherIconsDict[iconCode] != nil { return weatherIconsDict[iconCode] ?? UIImage() }
-        guard let url = URL(string: "https://openweathermap.org/img/w/\(iconCode).png") else { return nil }
-        var image: UIImage?
-        getData(from: url) { data, response, error in
-            guard let data = data, error == nil else { return }
-            image = UIImage(data: data)
-            self.weatherIconsDict.updateValue(image, forKey: iconCode)
-            self.delegate?.dataUpdated()
-        }
-        return weatherIconsDict[iconCode] ?? UIImage()
+    private func getWeatherIconURL(code iconCode: String) -> URL? {
+        URL(string: "https://openweathermap.org/img/w/\(iconCode).png")
     }
     //MARK: - Update
-    public func updateData(for city: String) {
+    public func updateData(for city: CityModel, completion: @escaping () -> ()) {
         manager.getWeather(for: city) { [self] (data) in
             guard let data = data else { return }
             weatherModel = data
+            completion()
         }
     }
     //MARK: - Get for CollectionView
@@ -76,14 +51,14 @@ class ANWeatherVcDataSource {
         numberOfPredictionsPerDay
     }
     public func getWeatherForItem(at index: Int)
-    -> (time: String?, weatherIcon: UIImage?, temp: Float?)? {
+    -> (time: String?, weatherIconURL: URL?, temp: Float?)? {
         guard let list = weatherModel?.list else { return nil }
         let offerModel = list[index]
         let dtText = offerModel.dt_txt
         let weatherIconCode = offerModel.weather?[0].icon
         let temp = offerModel.main?.temp
         return (time: getTimeDescription(from: dtText),
-                weatherIcon: getWeatherIcon(code: weatherIconCode ?? "10d"),
+                weatherIconURL: getWeatherIconURL(code: weatherIconCode ?? "10d"),
                 temp: temp)
     }
     
@@ -92,7 +67,7 @@ class ANWeatherVcDataSource {
         numberOfDays
     }
     public func getWeatherForCell(at index: Int)
-    -> (dayName: String?, weatherIcon: UIImage?, humadity: Float?, minTemp: Float?, maxtemp: Float?)? {
+    -> (dayName: String?, weatherIconURL: URL?, humadity: Float?, minTemp: Float?, maxtemp: Float?)? {
         let index = (index + 1) * 8 - 1
         guard let list = weatherModel?.list else { return nil }
         let offerModel = list[index]
@@ -101,7 +76,7 @@ class ANWeatherVcDataSource {
         let minTemp = offerModel.main?.temp_min
         let maxTemp = offerModel.main?.temp_max
         return (dayName: getWeekDay(at: index),
-                weatherIcon: getWeatherIcon(code: weatherIconCode ?? "10d"),
+                weatherIconURL: getWeatherIconURL(code: weatherIconCode ?? "10d"),
                 humadity: humadity,
                 minTemp: minTemp,
                 maxtemp: maxTemp)

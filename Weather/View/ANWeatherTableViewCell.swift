@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class ANWeatherTableViewCell: UITableViewCell {
     
@@ -15,13 +16,12 @@ class ANWeatherTableViewCell: UITableViewCell {
     @IBOutlet weak var minTemp: UILabel!
     @IBOutlet weak var maxTemp: UILabel!
 
-    public func setup(dayName: String?, weatherIcon: UIImage?, humadity: Float?, minTemp: Float?, maxTemp: Float?) {
+    public func setup(dayName: String?, weatherIconURL: URL?, humadity: Float?, minTemp: Float?, maxTemp: Float?) {
         self.dayName.text = dayName
-        self.weatherIcon.image = weatherIcon
+        self.weatherIcon.sd_setImage(with: weatherIconURL)
         self.humadity.text = "💧\(String(Int(humadity ?? 50)))%"
         self.minTemp.text = String(Int(minTemp ?? -666))
         self.maxTemp.text = String(Int(maxTemp ?? 666))
     }
-
 }
 

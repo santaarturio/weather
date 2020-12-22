@@ -17,7 +17,6 @@ class ANWeatherTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dataSource.delegate = self
         setupTableViewHeader()
         setupNavigationBar()
     }
@@ -65,12 +64,20 @@ class ANWeatherTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ANWeatherTableViewCell.self)) as? ANWeatherTableViewCell else { return UITableViewCell() }
         if let data = dataSource.getWeatherForCell(at: indexPath.row) {
             cell.setup(dayName: data.dayName,
-                       weatherIcon: data.weatherIcon,
+                       weatherIconURL: data.weatherIconURL,
                        humadity: data.humadity,
                        minTemp: data.minTemp,
                        maxTemp: data.maxtemp)
         }
         return cell
+    }
+    
+    //MARK: - Private
+    private func createCityModel(cityName: String?, coord: CoordModel?) -> CityModel {
+        let city = CityModel()
+        city.name = cityName
+        city.coord = coord
+        return city
     }
 }
 
@@ -85,7 +92,7 @@ extension ANWeatherTableViewController: UICollectionViewDataSource, UICollection
         else { return UICollectionViewCell() }
         if let data = dataSource.getWeatherForItem(at: indexPath.item) {
             cell.setup(time: data.time,
-                       weatherIcon: data.weatherIcon,
+                       weatherIconURL: data.weatherIconURL,
                        temperature: data.temp)
         }
         return cell
@@ -116,18 +123,14 @@ extension ANWeatherTableViewController: UICollectionViewDelegateFlowLayout {
 extension ANWeatherTableViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         timer.invalidate()
-        guard let city = searchController.searchBar.text, !city.isEmpty else { return }
-        timer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { (_) in
-            self.dataSource.updateData(for: city)
+        guard let cityName = searchController.searchBar.text, !cityName.isEmpty else { return }
+        timer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { [self] (_) in
+            
+            dataSource.updateData(for: createCityModel(cityName: cityName, coord: nil),
+                                  completion: { reloadData() })
             
             searchController.searchBar.text = ""
             searchController.dismiss(animated: true, completion: nil)
         })
-    }
-}
-//MARK: - DataSourceDelegate
-extension ANWeatherTableViewController: ANWeatherVcDataSourceDelegate {
-    func dataUpdated() {
-        DispatchQueue.main.async { self.reloadData() }
     }
 }

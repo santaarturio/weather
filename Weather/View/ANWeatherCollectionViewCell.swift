@@ -7,16 +7,17 @@
 
 import UIKit
 import TinyConstraints
+import SDWebImage
 
 class ANWeatherCollectionViewCell: UICollectionViewCell {
     private var timeLabel = UILabel()
     private var weatherIcon = UIImageView()
     private var tempLabel = UILabel()
     
-    public func setup(time: String?, weatherIcon image: UIImage?, temperature temp: Float?) {
+    public func setup(time: String?, weatherIconURL: URL?, temperature temp: Float?) {
         configureView()
         timeLabel.text = time
-        weatherIcon.image = image
+        weatherIcon.sd_setImage(with: weatherIconURL)
         tempLabel.text = "\(Int(temp ?? 666))°C"
     }
     private func configureView() {
