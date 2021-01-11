@@ -13,6 +13,7 @@ class ANWeatherTableViewController: UITableViewController {
     private let locationManager = CLLocationManager()
     private let headerIdentifier = String(describing: ANWeatherTableVcTableViewHeader.self)
     private var collectionViewCellIdentifier = String(describing: ANWeatherCollectionViewCell.self)
+    private var tableViewCellIdentifier = String(describing: ANWeatherTableViewCell.self)
     private let headerHeight: CGFloat = 135.0
     private var timer = Timer()
     
@@ -21,10 +22,10 @@ class ANWeatherTableViewController: UITableViewController {
         
         setupTableViewHeader()
         setupNavigationBar()
-        configureColationManager()
+        configureLocationManager()
     }
     //MARK: - Setup
-    private func configureColationManager() {
+    private func configureLocationManager() {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
@@ -71,7 +72,8 @@ class ANWeatherTableViewController: UITableViewController {
         headerHeight * 0.6
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ANWeatherTableViewCell.self)) as? ANWeatherTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
+                as? ANWeatherTableViewCell else { return UITableViewCell() }
         if let data = dataSource.getWeatherForCell(at: indexPath.row) {
             cell.setup(dayName: data.dayName,
                        weatherIconURL: data.weatherIconURL,
@@ -120,15 +122,18 @@ extension ANWeatherTableViewController: UICollectionViewDataSource, UICollection
 }
 //MARK: - UICollectionViewDelegateFlowLayout
 extension ANWeatherTableViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width / 5,
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        CGSize(width: collectionView.bounds.width / 5,
                       height: collectionView.bounds.height)
     }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        0
     }
 }
-
 //MARK: - UISearchResultsUpdating
 extension ANWeatherTableViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
@@ -144,7 +149,7 @@ extension ANWeatherTableViewController: UISearchResultsUpdating {
         })
     }
 }
-
+//MARK: - CLLocationManagerDelegate
 extension ANWeatherTableViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         locationManager.stopUpdatingLocation()
