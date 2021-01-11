@@ -9,7 +9,8 @@ import Foundation
 import UIKit
 
 class ANWeatherVcDataSource {
-    private let manager = NetworkManager.shared
+//    private let manager = NetworkManager.shared
+    private let manager = NetworkManager()
     private let numberOfDays = 5
     private let numberOfPredictionsPerDay = 8
     private var weatherModel: OfferModel? 
