@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CoordModel: Codable {
+public struct CoordModel: Codable {
     var lat: Float?
     var lon: Float?
 }

@@ -7,29 +7,22 @@
 import Foundation
 import Alamofire
 
+public enum NetworkError: String, Error {
+    case InvalidURL = "InvalidURL"
+}
+
 class NetworkManager {
     
-    public func request(_ url: URL?, result: @escaping (Data?) -> Void) {
-        guard let url = url else { return }
+    //MARK: - Public
+    public func request(_ url: URL?, result: @escaping (Result<Data?, Error>) -> Void) {
+        guard let url = url else {
+            result(.failure(NetworkError.InvalidURL))
+            return
+        }
         AF.request(url).validate().response { (afResponse) in
-            afResponse.error == nil ?
-                result(afResponse.data) : result(nil)
+            if let error = afResponse.error {
+                result(.failure(error))
+            } else { result(.success(afResponse.data)) }
         }
     }
 }
-
-//    private let urlManager = UrlManager()
-//
-//    //MARK: - Public
-//    public func getWeather(for cityModel: CityModel,
-//                           result: @escaping ((OfferModel?) -> Void)) {
-//        if let url = cityModel.coord != nil ?
-//            urlManager.createUrlForCoord(cityModel.coord) : urlManager.createUrlForCityName(cityModel.name) {
-//            AF.request(url).validate()
-//                .responseJSON { (responseJSON) in
-//                    guard let data = responseJSON.data else { return }
-//                    result(try? JSONDecoder().decode(OfferModel.self, from: data))
-//                }
-//        }
-//    }
-//}

@@ -11,12 +11,18 @@ import UIKit
 class ANWeatherVcDataSource {
 //    private let manager = NetworkManager.shared
 //    private let manager = NetworkManager()
-    private let manager = WeatherService()
+    private let weatherAPI: WeatherAPIProtocol
+    private let service: WeatherService
     private let numberOfDays = 5
     private let numberOfPredictionsPerDay = 8
     private var weatherModel: OfferModel? 
     private var weatherIconsDict = [String: UIImage?]()
     private var weatherIcon: UIImage?
+    
+    init() {
+        weatherAPI = WeatherAPI()
+        service = WeatherService(weatherAPI: weatherAPI)
+    }
     
     //MARK: - Private
     private func getWeekDay(at index: Int) -> String {
@@ -38,8 +44,8 @@ class ANWeatherVcDataSource {
         URL(string: "https://openweathermap.org/img/w/\(iconCode).png")
     }
     //MARK: - Update
-    public func updateData(for city: CityModel, completion: @escaping () -> ()) {
-        manager.updateWeather(forCity: city) { [self] (data) in
+    public func updateData(for city: CityModel, parameter: Parameter, completion: @escaping () -> ()) {
+        service.updateWeather(forCity: city, by: parameter) { [self] (data) in
             guard let data = data else { return }
             weatherModel = data
             completion()

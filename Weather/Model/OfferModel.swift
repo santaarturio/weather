@@ -7,7 +7,7 @@
 
 import Foundation
 
-class OfferModel: Codable {
+public class OfferModel: Codable {
     var list: [ListOfferModel]?
     var city: CityModel?
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CityModel: Codable {
+public class CityModel: Codable {
     var name: String?
     var coord: CoordModel?
     var country: String?

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MainOfferModel: Codable {
+public class MainOfferModel: Codable {
     var temp: Float?
     var feels_like: Float?
     var temp_min: Float?

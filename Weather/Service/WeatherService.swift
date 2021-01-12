@@ -7,23 +7,33 @@
 
 import Foundation
 
+public typealias WeatherCompletionHandler = (OfferModel?) -> Void
+
+public enum Parameter {
+    case CityName, Location
+}
+
 class WeatherService {
-    private let weatherAPI : WeatherAPIProtocol
+    private let weatherAPI: WeatherAPIProtocol
     
-    init() {
-        weatherAPI = WeatherAPI()
+    init(weatherAPI: WeatherAPIProtocol) {
+        self.weatherAPI = weatherAPI
     }
     
     public func updateWeather(forCity cityModel: CityModel,
-                              result: @escaping (OfferModel?) -> Void) {
-        if let coord = cityModel.coord {
-            weatherAPI.getWeather(byLocation: coord, completion: { (model) in
-                result(model)
-            })
-        } else if let cityName = cityModel.name {
-            weatherAPI.getWeather(byCityName: cityName, completion: { (model) in
-                result(model)
-            })
+                              by parameter: Parameter,
+                              result: @escaping WeatherCompletionHandler) {
+        switch parameter {
+        case .CityName:
+            if let cityName = cityModel.name {
+                weatherAPI.getWeather(byCityName: cityName, completion: { (model) in
+                    result(model)
+                }) }
+        case .Location:
+            if let coord = cityModel.coord {
+                weatherAPI.getWeather(byLocation: coord, completion: { (model) in
+                    result(model)
+                }) }
         }
     }
 }

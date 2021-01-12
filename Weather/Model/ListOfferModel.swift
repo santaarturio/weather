@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ListOfferModel: Codable {
+public class ListOfferModel: Codable {
     var main: MainOfferModel?
     var weather: [WeatherModel]?
     var wind: WindModel?

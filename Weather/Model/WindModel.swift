@@ -7,7 +7,7 @@
 
 import Foundation
 
-class WindModel: Codable {
+public class WindModel: Codable {
     var speed: Float?
     var deg: Float?
 }

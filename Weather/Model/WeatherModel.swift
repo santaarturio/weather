@@ -7,7 +7,7 @@
 
 import Foundation
 
-class WeatherModel: Codable {
+public class WeatherModel: Codable {
     var main: String?
     var icon: String?
 }

@@ -142,6 +142,7 @@ extension ANWeatherTableViewController: UISearchResultsUpdating {
         timer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { [self] (_) in
             
             dataSource.updateData(for: createCityModel(cityName: cityName, coord: nil),
+                                  parameter: .CityName,
                                   completion: { reloadData() })
             
             searchController.searchBar.text = ""
@@ -158,6 +159,7 @@ extension ANWeatherTableViewController: CLLocationManagerDelegate {
         coord.lat = Float(currentLocation?.coordinate.latitude ?? 0)
         coord.lon = Float(currentLocation?.coordinate.longitude ?? 0)
         dataSource.updateData(for: createCityModel(cityName: nil, coord: coord),
+                              parameter: .Location,
                               completion: { self.reloadData() })
     }
 }

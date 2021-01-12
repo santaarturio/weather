@@ -8,7 +8,7 @@
 import Foundation
 
 class DataDecoder {
-    public func decodeJSON<T: Codable>(from data: Data, to decodeType: T.Type) -> T? {
+    public func decode<T: Codable>(from data: Data, to decodeType: T.Type) -> T? {
         try? JSONDecoder().decode(decodeType, from: data)
     }
 }
