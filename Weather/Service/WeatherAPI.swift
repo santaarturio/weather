@@ -13,6 +13,7 @@ protocol WeatherAPIProtocol: class {
 }
 
 class WeatherAPI: WeatherAPIProtocol {
+    
     private let urlProvider = URLProvider()
     private let networkManager = NetworkManager()
     private let decoder = DataDecoder()

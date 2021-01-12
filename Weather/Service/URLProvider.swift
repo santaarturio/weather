@@ -8,7 +8,7 @@
 import Foundation
 
 class URLProvider {
-    //MARK: - Private Properties
+    
     private var urlComponents: URLComponents = {
         var components = URLComponents()
         components.scheme = "https"

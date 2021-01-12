@@ -13,7 +13,6 @@ public enum NetworkError: String, Error {
 
 class NetworkManager {
     
-    //MARK: - Public
     public func request(_ url: URL?, result: @escaping (Result<Data?, Error>) -> Void) {
         guard let url = url else {
             result(.failure(NetworkError.InvalidURL))

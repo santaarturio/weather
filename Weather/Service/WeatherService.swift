@@ -14,6 +14,7 @@ public enum Parameter {
 }
 
 class WeatherService {
+    
     private let weatherAPI: WeatherAPIProtocol
     
     init(weatherAPI: WeatherAPIProtocol) {
