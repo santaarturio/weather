@@ -10,7 +10,8 @@ import UIKit
 
 class ANWeatherVcDataSource {
 //    private let manager = NetworkManager.shared
-    private let manager = NetworkManager()
+//    private let manager = NetworkManager()
+    private let manager = WeatherService()
     private let numberOfDays = 5
     private let numberOfPredictionsPerDay = 8
     private var weatherModel: OfferModel? 
@@ -38,7 +39,7 @@ class ANWeatherVcDataSource {
     }
     //MARK: - Update
     public func updateData(for city: CityModel, completion: @escaping () -> ()) {
-        manager.getWeather(for: city) { [self] (data) in
+        manager.updateWeather(forCity: city) { [self] (data) in
             guard let data = data else { return }
             weatherModel = data
             completion()
