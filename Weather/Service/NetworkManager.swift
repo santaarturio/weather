@@ -7,15 +7,11 @@
 import Foundation
 import Alamofire
 
-public enum NetworkError: String, Error {
-    case InvalidURL = "InvalidURL"
-}
-
 class NetworkManager {
     
     public func request(_ url: URL?, result: @escaping (Result<Data?, Error>) -> Void) {
         guard let url = url else {
-            result(.failure(NetworkError.InvalidURL))
+            result(.failure(URLError(.badURL)))
             return
         }
         AF.request(url).validate().response { (afResponse) in
