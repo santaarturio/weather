@@ -53,9 +53,6 @@ class ANWeatherTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: headerIdentifier) as? ANWeatherTableVcTableViewHeader else { return nil }
         header.setup()
-        header.collectionView.register(ANWeatherCollectionViewCell.self,
-                                       forCellWithReuseIdentifier: collectionViewCellIdentifier)
-        collectionViewCellIdentifier = header.collectionViewCellIdentifier
         header.collectionView.dataSource = self
         header.collectionView.delegate = self
         return header
@@ -108,16 +105,6 @@ extension ANWeatherTableViewController: UICollectionViewDataSource, UICollection
                        temperature: data.temp)
         }
         return cell
-         
-//        guard
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionViewCellIdentifier,
-//                                                          for: indexPath) as? ANWeatherCollectionViewCell,
-//            let data = dataSource.getWeatherForItem(at: indexPath.item)
-//        else { return UICollectionViewCell() }
-//        cell.setup(time: data.time,
-//                   weatherIcon: data.weatherIcon,
-//                   temperature: data.temp)
-//        return cell
     }
 }
 //MARK: - UICollectionViewDelegateFlowLayout
@@ -126,7 +113,7 @@ extension ANWeatherTableViewController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         CGSize(width: collectionView.bounds.width / 5,
-                      height: collectionView.bounds.height)
+               height: collectionView.bounds.height)
     }
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -163,4 +150,4 @@ extension ANWeatherTableViewController: CLLocationManagerDelegate {
                               completion: { self.reloadData() })
     }
 }
-  
+

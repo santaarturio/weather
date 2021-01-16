@@ -9,8 +9,6 @@ import Foundation
 import UIKit
 
 class ANWeatherVcDataSource {
-//    private let manager = NetworkManager.shared
-//    private let manager = NetworkManager()
     private let weatherAPI: WeatherAPIProtocol
     private let service: WeatherService
     private let numberOfDays = 5
